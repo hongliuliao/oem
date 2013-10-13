@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <oem>
         <class name="org.github.oem.pojo.User">
-                <property name="id" type="Integer"></property>
-                <property name="name" type="String"></property>
+                <property name="id" type="Integer" dataIndex="0"></property>
+                <property name="name" type="String" dataIndex="2"></property>
         </class>
 </oem>

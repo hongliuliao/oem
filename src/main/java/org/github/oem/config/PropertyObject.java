@@ -1,8 +1,12 @@
 package org.github.oem.config;
 
 public class PropertyObject {
+	
 	private String name;
 	private String type;
+	/**
+	 * 在excel 中的列索引
+	 */
 	private int dataIndex;
 	private String value;
 	
