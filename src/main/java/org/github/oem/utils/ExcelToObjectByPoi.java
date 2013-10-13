@@ -2,6 +2,7 @@ package org.github.oem.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +17,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.github.oem.config.ConfigUtils;
 import org.github.oem.config.MappingUtils;
 import org.github.oem.config.OemObject;
-import org.github.oem.config.OneToManyObject;
 import org.github.oem.config.PropertyObject;
 
 
-public class ExcelToObjectByPoi implements ExcelToObject {
+public class ExcelToObjectByPoi  {
 	public static int dataStartRow=ConfigUtils.dataStartRow;
 	public static boolean isMultiSheet=ConfigUtils.isMultiSheet;
+	
+	public ExcelToObjectByPoi(URL mappingConfigDir) {
+		super();
+		MappingUtils.init(mappingConfigDir);
+	}
+
 	/**
 	 * 读取单个Sheet
 	 * @param sheet 工作簿中的sheet
@@ -40,39 +46,20 @@ public class ExcelToObjectByPoi implements ExcelToObject {
 					oem=CommonUtils.buildOemByClass(clazz);
 				}
 				Row row=sheet.getRow(i);
-				if(oem.getOneToManyObjects()==null){
-					T obj=clazz.newInstance();
-					List<T> propertys=oem.getPropertys();
-					for(int j=0;j<propertys.size();j++){
-						PropertyObject property=(PropertyObject) propertys.get(j);
-						Cell cell=row.getCell((short) j);
-						Object value=PoiUtils.getCellValue(cell, CommonUtils.getType(property.getType()));
-						CommonUtils.setProperty(obj, property.getName(), value);
+				T obj=clazz.newInstance();
+				List<PropertyObject> propertys=oem.getPropertys();
+				for(int j=0;j<propertys.size();j++){
+					PropertyObject property=(PropertyObject) propertys.get(j);
+					Cell cell = null;
+					if(property.getColIndex() != -1) {
+						cell=row.getCell((short) property.getColIndex());
+					} else {
+						cell=row.getCell((short) j);
 					}
-					list.add(obj);
-				}else{
-					List<T> oneToManyList=oem.getOneToManyObjects();
-					for(int j=0;j<oneToManyList.size();j++){
-						T obj=clazz.newInstance();
-						OneToManyObject oneToManyObject=(OneToManyObject) oneToManyList.get(j);
-						for(int k=0;k<oneToManyObject.getPropertys().size();k++){
-							PropertyObject property=(PropertyObject) oneToManyObject.getPropertys().get(k);
-							if(property.getDataIndex()!=-1){
-								Cell cell=row.getCell((short) property.getDataIndex());
-								Object value=PoiUtils.getCellValue(cell, CommonUtils.getType(property.getType()));
-								CommonUtils.setProperty(obj, property.getName(), value);
-							}else{
-								Object value=property.getValue();
-								CommonUtils.setProperty(obj, property.getName(), value);
-							}
-							
-							
-							
-						}
-						list.add(obj);
-					}
+					Object value=PoiUtils.getCellValue(cell, CommonUtils.getType(property.getType()));
+					CommonUtils.setProperty(obj, property.getName(), value);
 				}
-				
+				list.add(obj);
 			}
 			return list;
 		} catch (Exception e) {
@@ -116,58 +103,17 @@ public class ExcelToObjectByPoi implements ExcelToObject {
 		for(int i=dataStartRow;i<=sheet.getLastRowNum();i++){
 			OemObject oem= (OemObject) MappingUtils.configMap.get(className);
 			HSSFRow row=sheet.getRow(i);
-			if(oem.getOneToManyObjects()==null){
-				Object obj=CommonUtils.getNewObject(clazz);
-				List propertys=oem.getPropertys();
-				for(int j=0;j<propertys.size();j++){
-					PropertyObject property=(PropertyObject) propertys.get(j);
-					HSSFCell cell=row.getCell((short) j);
-					Object value=PoiUtils.getCellValue(cell, CommonUtils.getType(property.getType()));
-					CommonUtils.setProperty(obj, property.getName(), value);
-				}
-				list.add(obj);
-			}else{
-				List oneToManyList=oem.getOneToManyObjects();
-				for(int j=0;j<oneToManyList.size();j++){
-					Object obj=CommonUtils.getNewObject(clazz);
-					OneToManyObject oneToManyObject=(OneToManyObject) oneToManyList.get(j);
-					for(int k=0;k<oneToManyObject.getPropertys().size();k++){
-						PropertyObject property=(PropertyObject) oneToManyObject.getPropertys().get(k);
-						if(property.getDataIndex()!=-1){
-							HSSFCell cell=row.getCell((short) property.getDataIndex());
-							Object value=PoiUtils.getCellValue(cell, CommonUtils.getType(property.getType()));
-							CommonUtils.setProperty(obj, property.getName(), value);
-						}else{
-							Object value=property.getValue();
-							CommonUtils.setProperty(obj, property.getName(), value);
-						}
-					}
-					list.add(obj);
-				}
+			Object obj=CommonUtils.getNewObject(clazz);
+			List propertys=oem.getPropertys();
+			for(int j=0;j<propertys.size();j++){
+				PropertyObject property=(PropertyObject) propertys.get(j);
+				HSSFCell cell=row.getCell((short) j);
+				Object value=PoiUtils.getCellValue(cell, CommonUtils.getType(property.getType()));
+				CommonUtils.setProperty(obj, property.getName(), value);
 			}
-			
+			list.add(obj);
 		}
 		return list;
 	}
-	public List[] readExcel(String filePath,Class[] classes){
-		FileInputStream fis=null;
-		try {
-			fis = new FileInputStream(filePath);
-			XSSFWorkbook workbook=new XSSFWorkbook(fis);
-			ExcelToObjectByPoi reader=new ExcelToObjectByPoi();
-			List[] lists=reader.readWorkbook(workbook, classes);
-			return lists;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			if(fis!=null){
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return null;
-	}
+	
 }

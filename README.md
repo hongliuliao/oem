@@ -7,12 +7,12 @@ This is a tool for excel mapping to pojo
 
 使用说明(现在只支持excel 2007):
 	
-	ExcelToObject reader=new ExcelToObjectByPoi();  
+	ExcelToObjectByPoi reader=new ExcelToObjectByPoi(ExcelToObjectTest.class.getResource("/"));  
 
 	@Test
-	public void testReadExcel() {
-		String filePath = new File(ExcelToObjectTest.class.getResource("/test.xlsx").getFile()).getPath();
-		List<User>[] users = reader.readExcel(filePath, new Class[] {User.class});
-		User user = users[0].get(0);
-		System.out.println(user);
+	public void testReadExcel() throws InvalidFormatException, IOException {
+		File excelFile = new File(ExcelToObjectTest.class.getResource("/test.xlsx").getFile());
+		Workbook workbook = WorkbookFactory.create(excelFile);
+		List<User> users = reader.readSheet(workbook.getSheetAt(0), User.class);
+		System.out.println(users);
 	}

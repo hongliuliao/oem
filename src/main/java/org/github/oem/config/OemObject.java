@@ -4,25 +4,18 @@ import java.util.List;
 
 public class OemObject {
 	public String className;
-	public List propertys;
-	private List oneToManyObjects;
+	public List<PropertyObject> propertys;
 
-	public List getOneToManyObjects() {
-		return oneToManyObjects;
-	}
-	public void setOneToManyObjects(List oneToManyObjects) {
-		this.oneToManyObjects = oneToManyObjects;
-	}
 	public String getClassName() {
 		return className;
 	}
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	public List getPropertys() {
+	public List<PropertyObject> getPropertys() {
 		return propertys;
 	}
-	public void setPropertys(List propertys) {
+	public void setPropertys(List<PropertyObject> propertys) {
 		this.propertys = propertys;
 	}
 	

@@ -3,6 +3,8 @@
  */
 package org.github.oem.pojo;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  * 
  * @author liaohongliu
@@ -28,5 +30,8 @@ public class User {
 		this.name = name;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

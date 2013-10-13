@@ -5,16 +5,16 @@ public class PropertyObject {
 	private String name;
 	private String type;
 	/**
-	 * 在excel 中的列索引
+	 * 在excel 中的列索引,默认-1
 	 */
-	private int dataIndex;
+	private int colIndex = -1;
 	private String value;
 	
-	public int getDataIndex() {
-		return dataIndex;
+	public int getColIndex() {
+		return colIndex;
 	}
-	public void setDataIndex(int dataIndex) {
-		this.dataIndex = dataIndex;
+	public void setColIndex(int dataIndex) {
+		this.colIndex = dataIndex;
 	}
 	public String getValue() {
 		return value;
