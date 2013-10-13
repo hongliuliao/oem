@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oem>
+        <class name="org.github.oem.pojo.User">
+                <property name="id" type="Integer"></property>
+                <property name="name" type="String"></property>
+        </class>
+</oem>
