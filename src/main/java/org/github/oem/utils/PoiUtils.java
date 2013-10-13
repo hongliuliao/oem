@@ -5,10 +5,11 @@ import java.text.SimpleDateFormat;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.ss.usermodel.Cell;
 
 public class PoiUtils {
 	public static SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-mm-dd");
-	public static Object getCellValue(HSSFCell cell,Class type){
+	public static Object getCellValue(Cell cell,Class type){
 		if(type==String.class){
 			return cell.getRichStringCellValue().getString();
 		}else if(type==Integer.class){
