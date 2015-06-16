@@ -8,7 +8,7 @@ import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 
 public class PoiUtils {
-	public static SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-mm-dd");
+	
 	public static Object getCellValue(Cell cell,Class type){
 		if(type==String.class){
 			return cell.getRichStringCellValue().getString();
@@ -34,6 +34,7 @@ public class PoiUtils {
 			return cell.getRichStringCellValue().getString();
 		case HSSFCell.CELL_TYPE_NUMERIC:
 			if(HSSFDateUtil.isCellDateFormatted(cell)){
+			    SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-mm-dd");
 				return dateFormat.format(cell.getDateCellValue());
 			}else{
 				String value=new BigDecimal(new Double(cell.getNumericCellValue()).toString()).toString();
