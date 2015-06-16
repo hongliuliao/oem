@@ -3,9 +3,9 @@ oem
 
 This is a tool for excel mapping to pojo
 
-ºÜÔçÖ®Ç°Ğ´µÄÒ»¸ö½«excel ×ª»»³É¶ÔÏóµÄ¹¤¾ß°ü,×ª»»³ÉmavenÁË
+å¾ˆæ—©ä¹‹å‰å†™çš„ä¸€ä¸ªå°†excel è½¬æ¢æˆå¯¹è±¡çš„å·¥å…·åŒ…,è½¬æ¢æˆmavenäº†
 
-Ê¹ÓÃËµÃ÷(ÏÖÔÚÖ»Ö§³Öexcel 2007):
+ä½¿ç”¨è¯´æ˜(ç°åœ¨åªæ”¯æŒexcel 2007):
 	
 	ExcelToObjectByPoi reader=new ExcelToObjectByPoi(ExcelToObjectTest.class.getResource("/"));  
 
@@ -16,3 +16,14 @@ This is a tool for excel mapping to pojo
 		List<User> users = reader.readSheet(workbook.getSheetAt(0), User.class);
 		System.out.println(users);
 	}
+	
+	é»˜è®¤ä½¿ç”¨pojoçš„é¡ºåºè¿›è¡Œè§£æ,å¦‚æœæœ‰ç‰¹æ®Šè¦æ±‚,å¯ä»¥è¿™æ ·é…ç½®
+	```xml
+	<?xml version="1.0" encoding="UTF-8"?>
+	<oem>
+	        <class name="org.github.oem.pojo.User">
+	                <property name="id" type="Integer" colIndex="0"></property>
+	                <property name="name" type="String" colIndex="2"></property>
+	        </class>
+	</oem>
+	```
