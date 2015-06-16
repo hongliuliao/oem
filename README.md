@@ -17,7 +17,7 @@ This is a tool for excel mapping to pojo
 		System.out.println(users);
 	}
 	
-	默认使用pojo的顺序进行解析,如果有特殊要求,可以这样配置
+默认使用pojo的顺序进行解析,如果有特殊要求,可以这样配置
 	
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
