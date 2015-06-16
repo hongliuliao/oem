@@ -18,12 +18,13 @@ This is a tool for excel mapping to pojo
 	}
 	
 	默认使用pojo的顺序进行解析,如果有特殊要求,可以这样配置
-	```xml
-	<?xml version="1.0" encoding="UTF-8"?>
-	<oem>
-	        <class name="org.github.oem.pojo.User">
-	                <property name="id" type="Integer" colIndex="0"></property>
-	                <property name="name" type="String" colIndex="2"></property>
-	        </class>
-	</oem>
-	```
+	
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<oem>
+        <class name="org.github.oem.pojo.User">
+                <property name="id" type="Integer" colIndex="0"></property>
+                <property name="name" type="String" colIndex="2"></property>
+        </class>
+</oem>
+```
