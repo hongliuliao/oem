@@ -16,7 +16,7 @@ public class ExcelToObjectTest {
 
 	@Test
 	public void testReadExcel() throws InvalidFormatException, IOException {
-		File excelFile = new File(ExcelToObjectTest.class.getResource("/test.xlsx").getFile());
+		File excelFile = new File(ExcelToObjectTest.class.getResource("/test_2011.xlsx").getFile());
 		Workbook workbook = WorkbookFactory.create(excelFile);
 		List<User> users = reader.readSheet(workbook.getSheetAt(0), User.class);
 		System.out.println(users);

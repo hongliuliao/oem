@@ -35,9 +35,9 @@ public class MappingUtils {
 		}
 	}
 	/**
-	 * µÃµ½Oem¶ÔÏó
-	 * @param document Ã¿Ò»¸öÓ³ÉäÎÄ¼ş¶ÔÓ¦µÄÎÄµµ¶ÔÏó
-	 * @return Oem¶ÔÏó
+	 * å¾—åˆ°Oemå¯¹è±¡
+	 * @param document æ¯ä¸€ä¸ªæ˜ å°„æ–‡ä»¶å¯¹åº”çš„æ–‡æ¡£å¯¹è±¡
+	 * @return Oemå¯¹è±¡
 	 */
 	public static OemObject getOemObjects(Document document){
 //		List oemList=new ArrayList();
@@ -50,9 +50,9 @@ public class MappingUtils {
 		return oem;
 	}
 	/**
-	 * µÃµ½ÊôĞÔ¶ÔÏó,Õë¶Ô×î¼òµ¥µÄÇé¿ö
-	 * @param element class½Úµã
-	 * @return ÊôĞÔ¶ÔÏó¼¯ºÏ
+	 * å¾—åˆ°å±æ€§å¯¹è±¡,é’ˆå¯¹æœ€ç®€å•çš„æƒ…å†µ
+	 * @param element classèŠ‚ç‚¹
+	 * @return å±æ€§å¯¹è±¡é›†åˆ
 	 */
 	public static List<PropertyObject> getPropertys(Element element){
 		List elemList=element.elements();

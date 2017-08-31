@@ -5,7 +5,7 @@ public class PropertyObject {
 	private String name;
 	private String type;
 	/**
-	 * ÔÚexcel ÖÐµÄÁÐË÷Òý,Ä¬ÈÏ-1
+	 * åœ¨excel ä¸­çš„åˆ—ç´¢å¼•,é»˜è®¤-1
 	 */
 	private int colIndex = -1;
 	private String value;

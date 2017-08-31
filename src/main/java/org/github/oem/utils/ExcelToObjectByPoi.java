@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -23,6 +25,7 @@ import org.github.oem.config.PropertyObject;
 public class ExcelToObjectByPoi  {
 	public static int dataStartRow=ConfigUtils.dataStartRow;
 	public static boolean isMultiSheet=ConfigUtils.isMultiSheet;
+    private static Logger log = Logger.getLogger(ExcelToObjectByPoi.class);
 	
 	public ExcelToObjectByPoi(URL mappingConfigDir) {
 		super();
@@ -30,11 +33,11 @@ public class ExcelToObjectByPoi  {
 	}
 
 	/**
-	 * ¶ÁÈ¡µ¥¸öSheet
-	 * @param sheet ¹¤×÷²¾ÖĞµÄsheet
-	 * @param clazz Òª×ª»»µÄÀà
-	 * @return ¶ÔÏó¼¯ºÏ
-	 * @throws Exception Òì³£
+	 * è¯»å–å•ä¸ªSheet
+	 * @param sheet å·¥ä½œç°¿ä¸­çš„sheet
+	 * @param clazz è¦è½¬æ¢çš„ç±»
+	 * @return å¯¹è±¡é›†åˆ
+	 * @throws Exception å¼‚å¸¸
 	 */
 	public <T> List<T> readSheet(Sheet sheet,Class<T> clazz){
 		try {
@@ -51,11 +54,15 @@ public class ExcelToObjectByPoi  {
 				for(int j=0;j<propertys.size();j++){
 					PropertyObject property=(PropertyObject) propertys.get(j);
 					Cell cell = null;
+                    short colIdx = (short) j;
 					if(property.getColIndex() != -1) {
-						cell=row.getCell((short) property.getColIndex());
-					} else {
-						cell=row.getCell((short) j);
-					}
+                        colIdx = (short) property.getColIndex();
+					} 
+                    cell = row.getCell(colIdx);
+                    if (cell == null) {
+                        log.warn("get cell is null, col idx:" + colIdx + ", j:" + j + ", i:" + i);
+                        continue;
+                    }
 					Object value=PoiUtils.getCellValue(cell, CommonUtils.getType(property.getType()));
 					CommonUtils.setProperty(obj, property.getName(), value);
 				}
@@ -69,12 +76,12 @@ public class ExcelToObjectByPoi  {
 	}
 
 	/**
-	 * ½«¹¤×÷²¾ÖĞµÄ¼ÇÂ¼×ª»»³É¶ÔÏó¼¯ºÏµÄÊı×é,¸ù¾İÅäÖÃÀ´È·¶¨Êı×éÖĞµÄ¸öÊı,Èç¹ûisMultiSheetÎªfalse
-	 * µÄ»°½«Ö»·µ»ØÒ»¸ölistµÄlistÊı×é,¶øÎªtrueµÄÊ±ºò¸ù¾İsheetµÄ¸öÊıÀ´·µ»Ø
-	 * @param workbook Òª×ª»»Îª¶ÔÏóµÄ¹¤×÷²¾
-	 * @param clazz Òª×ª»»µÄÀà
-	 * @return Êı×é¼¯ºÏ
-	 * @throws Exception Òì³£
+	 * å°†å·¥ä½œç°¿ä¸­çš„è®°å½•è½¬æ¢æˆå¯¹è±¡é›†åˆçš„æ•°ç»„,æ ¹æ®é…ç½®æ¥ç¡®å®šæ•°ç»„ä¸­çš„ä¸ªæ•°,å¦‚æœisMultiSheetä¸ºfalse
+	 * çš„è¯å°†åªè¿”å›ä¸€ä¸ªlistçš„listæ•°ç»„,è€Œä¸ºtrueçš„æ—¶å€™æ ¹æ®sheetçš„ä¸ªæ•°æ¥è¿”å›
+	 * @param workbook è¦è½¬æ¢ä¸ºå¯¹è±¡çš„å·¥ä½œç°¿
+	 * @param clazz è¦è½¬æ¢çš„ç±»
+	 * @return æ•°ç»„é›†åˆ
+	 * @throws Exception å¼‚å¸¸
 	 */
 	public <T> List<T>[] readWorkbook(Workbook workbook,Class<T>[] clazzs) throws Exception{
 		if(isMultiSheet){
@@ -91,12 +98,12 @@ public class ExcelToObjectByPoi  {
 		}
 	}
 	/**
-	 * ¶ÁÈ¡sheet,½«Ö®×ª»»ÎªÖ¸¶¨¶ÔÏó¼¯ºÏ,¸Ã·½·¨Ö÷ÒªÕë¶ÔÒ»¸öÀà¶ÔÓ¦¶àÕÅ±íµÄÊ±ºòÊ¹ÓÃ
-	 * @param sheet ¹¤×÷²¾ÖĞµÄsheet
-	 * @param clazz Ö¸¶¨µÄÀà
-	 * @param className ÅäÖÃÎÄ¼şÖĞµÄÀàÃû
-	 * @return ¶ÔÏó¼¯ºÏ
-	 * @throws Exception Òì³£
+	 * è¯»å–sheet,å°†ä¹‹è½¬æ¢ä¸ºæŒ‡å®šå¯¹è±¡é›†åˆ,è¯¥æ–¹æ³•ä¸»è¦é’ˆå¯¹ä¸€ä¸ªç±»å¯¹åº”å¤šå¼ è¡¨çš„æ—¶å€™ä½¿ç”¨
+	 * @param sheet å·¥ä½œç°¿ä¸­çš„sheet
+	 * @param clazz æŒ‡å®šçš„ç±»
+	 * @param className é…ç½®æ–‡ä»¶ä¸­çš„ç±»å
+	 * @return å¯¹è±¡é›†åˆ
+	 * @throws Exception å¼‚å¸¸
 	 */
 	public List readSheet(HSSFSheet sheet,Class clazz,String className) throws Exception{
 		List list=new ArrayList();

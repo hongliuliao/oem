@@ -59,9 +59,9 @@ public class CommonUtils {
 		return oem;
 	}
 	/**
-	 * µÃµ½¶à¸öĞ¡Êıµã¸ñÊ½µÄ×Ö·û´®µÄ×îºóÒ»¸ö
-	 * @param name ×Ö·û´®
-	 * @return ½ØÈ¡ºóµÄ×Ö·û´®
+	 * å¾—åˆ°å¤šä¸ªå°æ•°ç‚¹æ ¼å¼çš„å­—ç¬¦ä¸²çš„æœ€åä¸€ä¸ª
+	 * @param name å­—ç¬¦ä¸²
+	 * @return æˆªå–åçš„å­—ç¬¦ä¸²
 	 */
 	public static String getSimpleName(String name){
 		if(name.lastIndexOf(".")!=-1){
@@ -89,7 +89,7 @@ public class CommonUtils {
 		}else if("BigDecimal".equals(typeName)){
 			return BigDecimal.class;
 		}else{
-			log.error("²»Ö§³ÖµÄÀàĞÍ:"+typeName);
+			log.error("ä¸æ”¯æŒçš„ç±»å‹:"+typeName);
 			return null;
 		}
 	}
