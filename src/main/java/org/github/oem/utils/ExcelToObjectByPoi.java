@@ -6,7 +6,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -23,9 +24,10 @@ import org.github.oem.config.PropertyObject;
 
 
 public class ExcelToObjectByPoi  {
+	
 	public static int dataStartRow=ConfigUtils.dataStartRow;
 	public static boolean isMultiSheet=ConfigUtils.isMultiSheet;
-    private static Logger log = Logger.getLogger(ExcelToObjectByPoi.class);
+    private static Log log = LogFactory.getLog(ExcelToObjectByPoi.class);
 	
 	public ExcelToObjectByPoi(URL mappingConfigDir) {
 		super();
